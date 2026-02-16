@@ -199,11 +199,11 @@
         let score = 0;
         let bestScore = localStorage.getItem('spaceDodgeBest') || 0;
         let gameRunning = true;
-        let gameSpeed = 2;
+        let gameSpeed = 1.5; // Reduced from 2 to 1.5 - slower start
         let stars = [];
         let bullets = [];
         let canShoot = true;
-        let shootCooldown = 250; // milliseconds between shots
+        let shootCooldown = 200; // Reduced from 250 to 200 - faster shooting
         
         // Player
         const player = {
@@ -340,8 +340,8 @@
             obstacles.push({
                 x: Math.random() * (canvas.width - 40) + 20,
                 y: -30,
-                width: 30 + Math.random() * 20,
-                height: 30 + Math.random() * 20,
+                width: 25 + Math.random() * 15, // Reduced from 30 + 20 to 25 + 15 - smaller obstacles
+                height: 25 + Math.random() * 15,
                 speed: gameSpeed
             });
         }
@@ -485,8 +485,8 @@
             document.getElementById('score').textContent = `Bodovi: ${score}`;
             document.getElementById('bestScore').textContent = `Rekord: ${bestScore}`;
             
-            // Increase difficulty
-            gameSpeed = 2 + score / 500;
+            // Increase difficulty - much slower progression (from /500 to /1000)
+            gameSpeed = 1.5 + score / 1000;
         }
 
         function gameOver() {
@@ -504,7 +504,7 @@
 
         function restart() {
             score = 0;
-            gameSpeed = 2;
+            gameSpeed = 1.5; // Match new starting speed
             obstacles = [];
             collectibles = [];
             bullets = [];
@@ -526,12 +526,12 @@
             drawStars();
             
             // Create obstacles and collectibles
-            if (Date.now() - lastObstacle > 1500 - score / 2) {
+            if (Date.now() - lastObstacle > 2000 - score / 5) { // Increased from 1500, slower spawn increase
                 createObstacle();
                 lastObstacle = Date.now();
             }
             
-            if (Date.now() - lastCollectible > 3000) {
+            if (Date.now() - lastCollectible > 2500) { // Reduced from 3000 - more collectibles
                 createCollectible();
                 lastCollectible = Date.now();
             }
